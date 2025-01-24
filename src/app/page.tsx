@@ -1,14 +1,32 @@
 "use client";
+
 import { useState } from "react";
 import { toast, Toaster } from "sonner";
 import useVerifyNumber from "tel-check-ts";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
-const Page = () => {
-  const [input, setInput] = useState<string>("");
+const PhoneChecker = () => {
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const { verifyNumber } = useVerifyNumber();
+
+  const handleNumberClick = (num: string) => {
+    if (phoneNumber.length < 11) {
+      setPhoneNumber((prev) => prev + num);
+    }
+  };
+
+  const handleDelete = () => {
+    setPhoneNumber((prev) => prev.slice(0, -1));
+  };
 
   const handleVerification = () => {
-    const { verifyNumber } = useVerifyNumber();
-    const result = verifyNumber(input);
+    if (phoneNumber.length < 10) {
+      toast.error("Please enter a valid phone number");
+      return;
+    }
+    const result = verifyNumber(phoneNumber);
     if (result) {
       if (result.name && result.imgSrc) {
         toast(
@@ -20,70 +38,100 @@ const Page = () => {
       } else {
         toast(result.message);
       }
+    } else {
+      toast.error("Invalid number");
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Allow only numeric values
-    const numericValue = value.replace(/[^0-9]/g, "");
-    setInput(numericValue);
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const validKeys = /^[0-9]$/;
+    if (!validKeys.test(e.key)) {
+      e.preventDefault();
+    }
   };
 
+  const renderKeypad = () => (
+    <div className="flex flex-wrap justify-center gap-2">
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((num) => (
+        <Button
+          key={num}
+          onClick={() => handleNumberClick(num.toString())}
+          className="h-12 w-[30%] text-center"
+        >
+          {num}
+        </Button>
+      ))}
+    </div>
+  );
+
   return (
-    <main className="bg-[#F8F8F8] flex h-screen flex-col justify-center items-center px-5">
-      <Toaster />
-      <div className="border-2 border-[#E5E5E5] bg-white flex items-center gap-x-2 justify-between w-full md:w-2/4 lg:w-1/3 my-5 p-2 rounded-full">
-        <input
-          type="tel"
-          value={input}
-          onChange={handleInputChange}
-          className="w-full pl-4 outline-transparent text-sm md:text-base font-medium text-[#999999] bg-transparent"
-          placeholder="Check phone number..."
-          maxLength={11}
-        />
-        <button
-          type="submit"
-          className="bg-black p-4 rounded-full transition-all ease-out duration-200 hover:shadow-lg"
-          onClick={handleVerification}
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 18 18"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+    <main className="flex items-center gap-8 flex-col justify-center h-screen bg-gray-50">
+      <Image src="/assets/Nigeria.svg" alt="Logo" width={80} height={80} />
+      <div className="max-w-md p-6 shadow rounded-md">
+        <Toaster position="top-center" richColors />
+
+        <h1 className="text-2xl text-green-500 text-center font-bold mb-6">
+          PhoneCheck
+        </h1>
+
+        {/* Input Section */}
+        <div className="flex items-center gap-x-2 mb-6">
+          <Input
+            type="tel"
+            value={phoneNumber}
+            onChange={(e) =>
+              setPhoneNumber(e.target.value.replace(/[^0-9]/g, ""))
+            }
+            onKeyDown={handleKeyDown}  // Add the keydown handler here
+            className="flex-grow"
+            placeholder="Enter phone number"
+            maxLength={11}
+          />
+          <button
+            type="submit"
+            className="bg-green-700 p-2 rounded-full transition-all ease-out duration-200 hover:shadow-lg"
+            onClick={handleVerification}
           >
-            <path
-              d="M12 9H14C14 6.24 11.76 4 9 4V6C10.66 6 12 7.34 12 9ZM16 9H18C18 4.03 13.97 0 9 0V2C12.87 2 16 5.13 16 9ZM17 12.5C15.75 12.5 14.55 12.3 13.43 11.93C13.33 11.9 13.22 11.88 13.12 11.88C12.86 11.88 12.61 11.98 12.41 12.17L10.21 14.37C7.38 12.93 5.06 10.62 3.62 7.78L5.82 5.57C6.1 5.31 6.18 4.92 6.07 4.57C5.7 3.45 5.5 2.25 5.5 1C5.5 0.45 5.05 0 4.5 0H1C0.45 0 0 0.45 0 1C0 10.39 7.61 18 17 18C17.55 18 18 17.55 18 17V13.5C18 12.95 17.55 12.5 17 12.5ZM2.03 2H3.53C3.6 2.88 3.75 3.75 3.98 4.58L2.78 5.79C2.38 4.58 2.12 3.32 2.03 2ZM16 15.97C14.68 15.88 13.4 15.62 12.2 15.21L13.4 14.01C14.25 14.25 15.12 14.4 16 14.46V15.97Z"
-              fill="#f6f6f6"
-            />
-          </svg>
-        </button>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 9H14C14 6.24 11.76 4 9 4V6C10.66 6 12 7.34 12 9ZM16 9H18C18 4.03 13.97 0 9 0V2C12.87 2 16 5.13 16 9ZM17 12.5C15.75 12.5 14.55 12.3 13.43 11.93C13.33 11.9 13.22 11.88 13.12 11.88C12.86 11.88 12.61 11.98 12.41 12.17L10.21 14.37C7.38 12.93 5.06 10.62 3.62 7.78L5.82 5.57C6.1 5.31 6.18 4.92 6.07 4.57C5.7 3.45 5.5 2.25 5.5 1C5.5 0.45 5.05 0 4.5 0H1C0.45 0 0 0.45 0 1C0 10.39 7.61 18 17 18C17.55 18 18 17.55 18 17V13.5C18 12.95 17.55 12.5 17 12.5ZM2.03 2H3.53C3.6 2.88 3.75 3.75 3.98 4.58L2.78 5.79C2.38 4.58 2.12 3.32 2.03 2ZM16 15.97C14.68 15.88 13.4 15.62 12.2 15.21L13.4 14.01C14.25 14.25 15.12 14.4 16 14.46V15.97Z"
+                fill="#f6f6f6"
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Keypad */}
+        <div className="mb-4">{renderKeypad()}</div>
+
+        {/* Delete Button */}
+        <div className="flex justify-center">
+          <Button onClick={handleDelete} variant="outline" className="w-full">
+            Delete
+          </Button>
+        </div>
+
+
       </div>
-      <div className="absolute bottom-5 right-5">
+
+      {/* Attribution */}
+      <div className="text-center mt-4">
         <a
-          href="https://henry-agu.vercel.app/"
+          href="https://mykel.vercel.app"
           target="_blank"
-          className="border border-[#E5E5E5] py-2 px-4 rounded-md flex items-center gap-x-3.5"
+          className="text-sm text-gray-500"
         >
-          <span className="text-sm text-[#4f4f4f]">Built by Olowookere Micheal</span>
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 15 15"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5 0V2H11.59L0 13.59L1.41 15L13 3.41V10H15V0H5Z"
-              fill="#323232"
-            />
-          </svg>
+          Built by Olowookere Micheal
         </a>
       </div>
     </main>
   );
 };
 
-export default Page;
+export default PhoneChecker;
