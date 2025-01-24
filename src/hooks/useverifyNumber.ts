@@ -76,7 +76,7 @@ const networkData: NetworkData[] = [
 export const useVerifyNumber = () => {
     const verifyNumber = (input: string) => {
         if (!input.trim()) {
-            toast("Please enter a phone number");
+            toast.error("Please enter a valid phone number");
             return;
         }
 

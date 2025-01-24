@@ -29,14 +29,14 @@ const PhoneChecker = () => {
     const result = verifyNumber(phoneNumber);
     if (result) {
       if (result.name && result.imgSrc) {
-        toast(
+        toast.success(
           <div className="flex items-center gap-x-3">
             <img src={result.imgSrc} className="h-6 w-6" alt={result.name} />
             {result.message}
           </div>
         );
       } else {
-        toast(result.message);
+        toast.error(result.message);
       }
     } else {
       toast.error("Invalid number");
@@ -66,7 +66,7 @@ const PhoneChecker = () => {
 
   return (
     <main className="flex items-center gap-8 flex-col justify-center h-screen bg-gray-50">
-      <Image src="/assets/Nigeria.svg" alt="Logo" width={80} height={80} />
+      <Image src="/images/Nigeria.svg" alt="Logo" width={80} height={80} />
       <div className="max-w-md p-6 shadow rounded-md">
         <Toaster position="top-center" richColors />
 
