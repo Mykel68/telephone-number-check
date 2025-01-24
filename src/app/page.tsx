@@ -43,18 +43,18 @@ const PhoneChecker = () => {
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    const validKeys = /^[0-9]$/;
-    if (validKeys.test(e.key)) {
-      // If it's a valid number, update the phone number
-      setPhoneNumber((prev) => prev + e.key);
-    } else if (e.key === "Backspace") {
-      // Allow backspace to delete characters
-      setPhoneNumber((prev) => prev.slice(0, -1));
-    } else {
-      e.preventDefault(); // Prevent non-number keys from being entered
-    }
-  };
+  // const handleKeyDown = (e: React.KeyboardEvent) => {
+  //   const validKeys = /^[0-9]$/;
+  //   if (validKeys.test(e.key)) {
+  //     // If it's a valid number, update the phone number
+  //     setPhoneNumber((prev) => prev + e.key);
+  //   } else if (e.key === "Backspace") {
+  //     // Allow backspace to delete characters
+  //     setPhoneNumber((prev) => prev.slice(0, -1));
+  //   } else {
+  //     e.preventDefault(); // Prevent non-number keys from being entered
+  //   }
+  // };
 
   const renderKeypad = () => (
     <div className="flex flex-wrap justify-center gap-2">
