@@ -22,12 +22,12 @@ const networkData: NetworkData[] = [
             "0913",
         ],
         name: "MTN",
-        imgSrc: "/assets/mtn.jpg",
+        imgSrc: "/images/mtn.jpg",
     },
     {
         prefixes: ["0805", "0807", "0705", "0811", "0815", "0905", "0915"],
         name: "Glo",
-        imgSrc: "/assets/GloLogo.png",
+        imgSrc: "/images/GloLogo.png",
     },
     {
         prefixes: [
@@ -44,32 +44,32 @@ const networkData: NetworkData[] = [
             "0911",
         ],
         name: "Airtel",
-        imgSrc: "/assets/airtel.png",
+        imgSrc: "/images/airtel.png",
     },
     {
         prefixes: ["0809", "0817", "0818", "0908", "0909"],
         name: "9mobile",
-        imgSrc: "/assets/9mobile.jpg",
+        imgSrc: "/images/9mobile.jpg",
     },
     {
         prefixes: ["0804"],
         name: "Ntel",
-        imgSrc: "/assets/ntel.jpg",
+        imgSrc: "/images/ntel.jpg",
     },
     {
         prefixes: ["0819", "07028", "07029"],
         name: "Starcomms",
-        imgSrc: "/assets/starcomms.png",
+        imgSrc: "/images/starcomms.png",
     },
     {
         prefixes: ["0702"],
         name: "Smile",
-        imgSrc: "/assets/smile.jpg",
+        imgSrc: "/images/smile.jpg",
     },
     {
         prefixes: ["0707"],
         name: "Zoom",
-        imgSrc: "/assets/zoom.jpg",
+        imgSrc: "/images/zoom.jpg",
     },
 ];
 
