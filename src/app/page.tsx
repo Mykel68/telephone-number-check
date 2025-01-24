@@ -43,18 +43,17 @@ const PhoneChecker = () => {
     }
   };
 
-  // const handleKeyDown = (e: React.KeyboardEvent) => {
-  //   const validKeys = /^[0-9]$/;
-  //   if (validKeys.test(e.key)) {
-  //     // If it's a valid number, update the phone number
-  //     setPhoneNumber((prev) => prev + e.key);
-  //   } else if (e.key === "Backspace") {
-  //     // Allow backspace to delete characters
-  //     setPhoneNumber((prev) => prev.slice(0, -1));
-  //   } else {
-  //     e.preventDefault(); // Prevent non-number keys from being entered
-  //   }
-  // };
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const validKeys = /^[0-9]$/;
+
+    if (validKeys.test(e.key) && phoneNumber.length < 11) {
+      setPhoneNumber((prev) => prev + e.key);
+    } else if (e.key === "Backspace") {
+      handleDelete();
+    } else if (e.key === "Enter") {
+      handleVerification();
+    }
+  };
 
   const renderKeypad = () => (
     <div className="flex flex-wrap justify-center gap-2">
@@ -85,7 +84,7 @@ const PhoneChecker = () => {
           <Input
             type="tel"
             value={phoneNumber}
-            // onKeyDown={handleKeyDown} 
+            onKeyDown={handleKeyDown}
             readOnly // Makes the input field non-editable directly
             className="flex-grow"
             placeholder="Enter phone number"
@@ -121,7 +120,6 @@ const PhoneChecker = () => {
             Delete
           </Button>
         </div>
-
       </div>
 
       {/* Attribution */}
