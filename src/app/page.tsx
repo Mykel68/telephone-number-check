@@ -67,7 +67,7 @@ const Page = () => {
           target="_blank"
           className="border border-[#E5E5E5] py-2 px-4 rounded-md flex items-center gap-x-3.5"
         >
-          <span className="text-sm text-[#4f4f4f]">Built by Henry Agu</span>
+          <span className="text-sm text-[#4f4f4f]">Built by Olowookere Micheal</span>
           <svg
             width="15"
             height="15"
