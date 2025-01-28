@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { toast, Toaster } from "sonner";
 import useVerifyNumber from "tel-check-ts";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import { X } from "lucide-react";
 
 const PhoneChecker = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null); // Ref to track the input element
   const { verifyNumber } = useVerifyNumber();
 
   const handleNumberClick = (num: string) => {
@@ -19,7 +20,27 @@ const PhoneChecker = () => {
   };
 
   const handleDelete = () => {
-    setPhoneNumber((prev) => prev.slice(0, -1));
+    const input = inputRef.current;
+    if (!input) return;
+
+    const start = input.selectionStart || 0; // Get the cursor start position
+    const end = input.selectionEnd || 0; // Get the cursor end position
+
+    if (start === end) {
+      // If no text is selected, delete the character before the cursor
+      setPhoneNumber((prev) => prev.slice(0, start - 1) + prev.slice(start));
+      // Move the cursor back by one position
+      setTimeout(() => {
+        input.setSelectionRange(start - 1, start - 1);
+      }, 0);
+    } else {
+      // If text is selected, delete the selected text
+      setPhoneNumber((prev) => prev.slice(0, start) + prev.slice(end));
+      // Move the cursor to the start of the selection
+      setTimeout(() => {
+        input.setSelectionRange(start, start);
+      }, 0);
+    }
   };
 
   const handleVerification = () => {
@@ -83,7 +104,8 @@ const PhoneChecker = () => {
         {/* Input Section */}
         <div className="flex items-center gap-x-2 mb-6">
           <Input
-            // value={phoneNumber}
+            ref={inputRef} // Attach the ref to the input
+            value={phoneNumber}
             onKeyDown={handleKeyDown}
             className="flex-grow"
             placeholder="Enter phone number"
@@ -96,18 +118,19 @@ const PhoneChecker = () => {
             onClick={handleDelete}
           >
             <X />
-
           </button>
         </div>
 
         {/* Keypad */}
         <div className="mb-4">{renderKeypad()}</div>
 
-        {/* Delete Button */}
+        {/* Check Button */}
         <div className="flex justify-center">
           <Button
             onClick={handleVerification}
-            variant="outline" className="w-full bg-green-700">
+            variant="outline"
+            className="w-full bg-green-700 text-white hover:bg-green-600 hover:text-white"
+          >
             <svg
               width="16"
               height="16"
