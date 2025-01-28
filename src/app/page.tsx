@@ -82,20 +82,31 @@ const PhoneChecker = () => {
         {/* Input Section */}
         <div className="flex items-center gap-x-2 mb-6">
           <Input
-            type="tel"
-            value={phoneNumber}
+            // value={phoneNumber}
             onKeyDown={handleKeyDown}
-            readOnly // Makes the input field non-editable directly
             className="flex-grow"
             placeholder="Enter phone number"
             maxLength={11}
           />
 
-          <button
+          {/* <button
             type="submit"
-            className="bg-green-700 p-2 rounded-full transition-all ease-out duration-200 hover:shadow-lg"
-            onClick={handleVerification}
+            className="bg-red-700 p-2 text-white rounded-full transition-all ease-out duration-200 hover:shadow-lg"
+            onClick={handleDelete}
           >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+
+          </button> */}
+        </div>
+
+        {/* Keypad */}
+        <div className="mb-4">{renderKeypad()}</div>
+
+        {/* Delete Button */}
+        <div className="flex justify-center">
+          <Button
+            onClick={handleVerification}
+            variant="outline" className="w-full bg-green-700">
             <svg
               width="16"
               height="16"
@@ -108,16 +119,7 @@ const PhoneChecker = () => {
                 fill="#f6f6f6"
               />
             </svg>
-          </button>
-        </div>
-
-        {/* Keypad */}
-        <div className="mb-4">{renderKeypad()}</div>
-
-        {/* Delete Button */}
-        <div className="flex justify-center">
-          <Button onClick={handleDelete} variant="outline" className="w-full">
-            Delete
+            Check Phone Number
           </Button>
         </div>
       </div>
